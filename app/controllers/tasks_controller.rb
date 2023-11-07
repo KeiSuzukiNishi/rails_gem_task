@@ -3,7 +3,18 @@ class TasksController < ApplicationController
 
   # GET /tasks
   def index
-    @tasks = Task.all
+
+    @q = Task.ransack(params[:q])
+    #@q.status_eq = nil if params[:q].nil? || params[:q][:status_eq].nil?
+    #@q.result(distinct: true)
+    #@tasks = Task.all
+    @tasks = @q.result(distinct: true)
+    # if params[:q] && params[:q][:deadline_gteq].present?
+    #   @tasks = @tasks.where('deadline >= ?', Date.parse(params[:q][:deadline_gteq]))
+    # end
+    # if params[:q] && params[:q][:deadline_lteq].present?
+    #   @tasks = @tasks.where('deadline <= ?', Date.parse(params[:q][:deadline_lteq]))
+    # end
   end
 
   # GET /tasks/1
@@ -13,6 +24,7 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
+    @q = Task.ransack(params[:q])
   end
 
   # GET /tasks/1/edit

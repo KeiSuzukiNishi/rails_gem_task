@@ -2,13 +2,30 @@
 
 <h1>Tasks</h1>
 
+<%= search_form_for @q do |f| %>
+  <%= f.label :title_or_description_cont, "キーワード" %>
+  <%= f.search_field :title_or_description_cont, class: "form-control" %>
+  <%= f.label :deadline_gteq, '期間' %>
+  <%= f.date_field :deadline_gteq, class: 'form-control' %>~ <%= f.date_field :deadline_lteq, class: 'form-control' %>
+  <br>
+  <%= f.radio_button :status_eq, "", checked: true, class: 'form-check-input' %>
+  指定なし
+  <%= f.radio_button :status_eq, 0, class: 'form-check-input' %>
+  todo
+  <%= f.radio_button :status_eq, 1, class: 'form-check-input' %>
+  doing
+  <%= f.radio_button :status_eq, 2, class: 'form-check-input' %>
+  done
+  <%= f.submit "Search" %>
+<% end %>
+
 <table>
   <thead>
     <tr>
       <th>Title</th>
       <th>Description</th>
       <th>Status</th>
-      <th>Deadline</th>
+      <th><%= sort_link(@q, :deadline, "Deadline" )%></th>
       <th colspan="3"></th>
     </tr>
   </thead>
